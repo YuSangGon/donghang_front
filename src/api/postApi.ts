@@ -1,0 +1,108 @@
+import type {
+  HomePostPreviewItem,
+  PostCategory,
+  PostDetail,
+  PostPageResponse,
+} from "../types/post";
+
+const BASE_URL = "/api/posts";
+
+export interface CreatePostRequest {
+  userId: number;
+  category: PostCategory;
+  title: string;
+  content: string;
+  location: string;
+}
+
+export interface UpdatePostRequest {
+  title: string;
+  content: string;
+  location: string;
+  category: PostCategory;
+}
+
+export async function getPostsByCategory(
+  category: PostCategory,
+  page: number,
+  size: number,
+): Promise<PostPageResponse> {
+  const response = await fetch(
+    `${BASE_URL}?category=${encodeURIComponent(category)}&page=${page}&size=${size}`,
+  );
+
+  if (!response.ok) {
+    throw new Error("카테고리별 게시글 목록을 불러오지 못했습니다.");
+  }
+
+  return response.json();
+}
+
+export async function getLatestPostsByCategory(
+  category: PostCategory,
+): Promise<HomePostPreviewItem[]> {
+  const response = await fetch(
+    `${BASE_URL}/latest?category=${encodeURIComponent(category)}`,
+  );
+
+  if (!response.ok) {
+    throw new Error("최신 게시글을 불러오지 못했습니다.");
+  }
+
+  return response.json();
+}
+
+export async function getPostDetail(postId: number): Promise<PostDetail> {
+  const response = await fetch(`${BASE_URL}/${postId}`);
+
+  if (!response.ok) {
+    throw new Error("게시글 상세 정보를 불러오지 못했습니다.");
+  }
+
+  return response.json();
+}
+
+export async function createPost(request: CreatePostRequest): Promise<number> {
+  const response = await fetch(BASE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    throw new Error("게시글 생성에 실패했습니다.");
+  }
+
+  return response.json();
+}
+
+export async function updatePost(
+  postId: number,
+  request: UpdatePostRequest,
+): Promise<number> {
+  const response = await fetch(`${BASE_URL}/${postId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    throw new Error("게시글 수정에 실패했습니다.");
+  }
+
+  return response.json();
+}
+
+export async function deletePost(postId: number): Promise<void> {
+  const response = await fetch(`${BASE_URL}/${postId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("게시글 삭제에 실패했습니다.");
+  }
+}

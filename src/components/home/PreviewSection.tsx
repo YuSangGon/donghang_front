@@ -1,10 +1,12 @@
-import type { Post } from "../../types/post";
+import { useNavigate } from "react-router-dom";
+import type { HomePostPreviewItem } from "../../types/post";
 
 interface PreviewSectionProps {
   id: string;
   title: string;
   description: string;
-  posts: Post[];
+  posts: HomePostPreviewItem[];
+  moreLink?: string;
 }
 
 function PreviewSection({
@@ -12,7 +14,10 @@ function PreviewSection({
   title,
   description,
   posts,
+  moreLink,
 }: PreviewSectionProps) {
+  const navigate = useNavigate();
+
   return (
     <section
       id={id}
@@ -26,7 +31,13 @@ function PreviewSection({
           <p className="mt-1 text-sm text-slate-700">{description}</p>
         </div>
 
-        <button className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100">
+        <button
+          type="button"
+          onClick={() => {
+            if (moreLink) navigate(moreLink);
+          }}
+          className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
+        >
           더보기
         </button>
       </div>
@@ -43,14 +54,17 @@ function PreviewSection({
           {posts.map((post) => (
             <li
               key={post.id}
-              className="grid grid-cols-[88px_minmax(0,1fr)_90px_80px] items-center px-4 py-3 text-sm text-slate-800 transition hover:bg-slate-50"
+              onClick={() => navigate(`/posts/${post.id}`)}
+              className="grid cursor-pointer grid-cols-[88px_minmax(0,1fr)_90px_80px] items-center px-4 py-3 text-sm text-slate-800 transition hover:bg-slate-50"
             >
-              <span className="font-medium text-slate-700">{post.region}</span>
+              <span className="font-medium text-slate-700">
+                {post.location}
+              </span>
               <span className="truncate font-medium text-slate-900">
                 {post.title}
               </span>
-              <span className="truncate text-slate-700">{post.author}</span>
-              <span className="text-slate-700">{post.viewCount}</span>
+              <span className="truncate text-slate-700">{post.nickname}</span>
+              <span className="text-slate-700">{post.viewCnt}</span>
             </li>
           ))}
         </ul>
