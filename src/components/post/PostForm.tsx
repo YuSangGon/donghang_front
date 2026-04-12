@@ -1,4 +1,5 @@
 import { useState } from "react";
+import LocationAutocompleteInput from "../location/LocationAutocompleteInput";
 
 interface PostFormValues {
   title: string;
@@ -74,22 +75,12 @@ function PostForm({
           />
         </div>
 
-        <div>
-          <label
-            htmlFor="location"
-            className="mb-2 block text-sm font-semibold text-slate-900"
-          >
-            지역
-          </label>
-          <input
-            id="location"
-            type="text"
-            value={location}
-            onChange={(event) => setLocation(event.target.value)}
-            placeholder="예: 런던"
-            className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-500"
-          />
-        </div>
+        <LocationAutocompleteInput
+          value={location}
+          onChange={setLocation}
+          label="지역"
+          placeholder="예: 영국, 런던"
+        />
 
         <div>
           <label
