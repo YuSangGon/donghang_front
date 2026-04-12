@@ -1,8 +1,6 @@
 import type { PostListItem } from "../../types/post";
-import {
-  getRentOfferTypeLabel,
-  getRentOfferTypeBadgeClass,
-} from "../../utils/rentLabel";
+import { getRentOfferTypeLabel } from "../../utils/rentLabel";
+import { getJobTypeLabel } from "../../utils/jobLabel";
 
 interface PostListTableProps {
   posts: PostListItem[];
@@ -41,6 +39,11 @@ function PostListTable({ posts, onClickPost }: PostListTableProps) {
               ? getRentOfferTypeLabel(post.offerType)
               : "";
 
+          const jobLabel =
+            post.category === "JOB" ? getJobTypeLabel(post.jobType) : "";
+
+          const badgeLabel = rentLabel || jobLabel;
+
           return (
             <li
               key={post.id}
@@ -55,11 +58,9 @@ function PostListTable({ posts, onClickPost }: PostListTableProps) {
                 onClick={() => onClickPost?.(post.id)}
                 className="truncate text-left font-semibold text-slate-900 hover:underline"
               >
-                {rentLabel && (
-                  <span
-                    className={`mr-2 rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-slate-700 ${getRentOfferTypeBadgeClass(post.offerType)}`}
-                  >
-                    {rentLabel}
+                {badgeLabel && (
+                  <span className="mr-2 rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-slate-700">
+                    {badgeLabel}
                   </span>
                 )}
                 {post.title}

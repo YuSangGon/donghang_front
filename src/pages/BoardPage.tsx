@@ -5,6 +5,7 @@ import Pagination from "../components/post/Pagination";
 import PostListTable from "../components/post/PostListTable";
 import { getPostsByCategory } from "../api/postApi";
 import type { PostCategory, PostPageResponse } from "../types/post";
+import { getDetailPathByCategory } from "../utils/postRoute";
 
 interface BoardPageProps {
   category: PostCategory;
@@ -88,7 +89,9 @@ function BoardPage({
           <>
             <PostListTable
               posts={data.content}
-              onClickPost={(postId) => navigate(`/posts/${postId}`)}
+              onClickPost={(postId) =>
+                navigate(getDetailPathByCategory(category, postId))
+              }
             />
 
             <Pagination

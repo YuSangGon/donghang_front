@@ -1,5 +1,6 @@
 export type PostCategory = "DONGHANG" | "RENT" | "JOB" | "INFO";
 export type RentOfferType = "RENT" | "WANTED";
+export type JobType = "PART_TIME" | "FULL_TIME";
 
 export interface PostListItem {
   id: number;
@@ -10,6 +11,7 @@ export interface PostListItem {
   category: PostCategory;
   createdAt: string;
   offerType?: RentOfferType | null;
+  jobType?: JobType | null;
 }
 
 export interface HomePostPreviewItem {

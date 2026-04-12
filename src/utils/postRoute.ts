@@ -29,3 +29,21 @@ export function getWritePathByCategory(category: PostCategory): string {
       return "/";
   }
 }
+
+export function getDetailPathByCategory(
+  category: PostCategory,
+  postId: number,
+): string {
+  switch (category) {
+    case "DONGHANG":
+      return `/posts/${postId}`;
+    case "RENT":
+      return `/rent-posts/${postId}`;
+    case "JOB":
+      return `/job-posts/${postId}`;
+    case "INFO":
+      return `/info-posts/${postId}`;
+    default:
+      return `/posts/${postId}`;
+  }
+}

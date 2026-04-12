@@ -11,6 +11,12 @@ import PostEditPage from "./pages/PostEditPage";
 import RentWritePage from "./pages/RentWritePage";
 import RentDetailPage from "./pages/RentDetailPage";
 import RentEditPage from "./pages/RentEditPage";
+import JobWritePage from "./pages/JobWritePage";
+import JobDetailPage from "./pages/JobDetailPage";
+import JobEditPage from "./pages/JobEditPage";
+import InfoWritePage from "./pages/InfoWritePage";
+import InfoDetailPage from "./pages/InfoDetailPage";
+import InfoEditPage from "./pages/InfoEditPage";
 
 function App() {
   return (
@@ -26,6 +32,12 @@ function App() {
           <Route path="/rent/write" element={<RentWritePage />} />
           <Route path="/rent-posts/:postId" element={<RentDetailPage />} />
           <Route path="/rent-posts/:postId/edit" element={<RentEditPage />} />
+          <Route path="/job/write" element={<JobWritePage />} />
+          <Route path="/job-posts/:postId" element={<JobDetailPage />} />
+          <Route path="/job-posts/:postId/edit" element={<JobEditPage />} />
+          <Route path="/info/write" element={<InfoWritePage />} />
+          <Route path="/info-posts/:postId" element={<InfoDetailPage />} />
+          <Route path="/info-posts/:postId/edit" element={<InfoEditPage />} />
           <Route path="/posts/:postId" element={<PostDetailPage />} />
           <Route path="/posts/:postId/edit" element={<PostEditPage />} />
         </Routes>

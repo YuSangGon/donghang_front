@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import type { HomePostPreviewItem } from "../../types/post";
+import { getDetailPathByCategory } from "../../utils/postRoute";
+import type { PostCategory } from "../../types/post";
 
 interface PreviewSectionProps {
   id: string;
   title: string;
   description: string;
+  category: PostCategory;
   posts: HomePostPreviewItem[];
   moreLink?: string;
 }
@@ -13,6 +16,7 @@ function PreviewSection({
   id,
   title,
   description,
+  category = "DONGHANG",
   posts,
   moreLink,
 }: PreviewSectionProps) {
@@ -54,7 +58,9 @@ function PreviewSection({
           {posts.map((post) => (
             <li
               key={post.id}
-              onClick={() => navigate(`/posts/${post.id}`)}
+              onClick={() =>
+                navigate(getDetailPathByCategory(category, post.id))
+              }
               className="grid cursor-pointer grid-cols-[88px_minmax(0,1fr)_90px_80px] items-center px-4 py-3 text-sm text-slate-800 transition hover:bg-slate-50"
             >
               <span className="font-medium text-slate-700">

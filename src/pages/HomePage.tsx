@@ -77,6 +77,7 @@ function HomePage() {
                 id="companion"
                 title="동행"
                 description="해외에서 함께 여행하거나 일정 맞는 사람을 찾아보세요."
+                category="DONGHANG"
                 posts={posts.companionPosts}
                 moreLink="/donghang"
               />
@@ -85,6 +86,7 @@ function HomePage() {
                 id="rent"
                 title="렌트"
                 description="지역별 집, 쉐어룸, 단기 렌트 정보를 확인해보세요."
+                category="RENT"
                 posts={posts.rentPosts}
                 moreLink="/rent"
               />
@@ -93,6 +95,7 @@ function HomePage() {
                 id="job"
                 title="구직"
                 description="현지 아르바이트, 풀타임, 단기 일자리 정보를 찾아보세요."
+                category="JOB"
                 posts={posts.jobPosts}
                 moreLink="/job"
               />
@@ -101,6 +104,7 @@ function HomePage() {
                 id="info"
                 title="정보게시판"
                 description="워홀, 비자, 정착, 생활 정보를 공유해보세요."
+                category="INFO"
                 posts={posts.infoPosts}
                 moreLink="/info"
               />
