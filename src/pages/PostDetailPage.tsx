@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
+import CommentSection from "../components/comment/CommentSection";
 import { deletePost, getPostDetail } from "../api/postApi";
 import type { PostDetail } from "../types/post";
-import CommentSection from "../components/comment/CommentSection";
+import { getBoardPathByCategory } from "../utils/postRoute";
 
 function formatDateTime(dateString: string): string {
   const date = new Date(dateString);
@@ -55,8 +56,13 @@ function PostDetailPage() {
     fetchPost();
   }, [postId]);
 
+  const boardPath = useMemo(() => {
+    if (!post) return "/";
+    return getBoardPathByCategory(post.category);
+  }, [post]);
+
   const handleDelete = async () => {
-    if (!postId) return;
+    if (!postId || !post) return;
 
     const confirmed = window.confirm("정말 이 게시글을 삭제하시겠습니까?");
     if (!confirmed) return;
@@ -64,7 +70,7 @@ function PostDetailPage() {
     try {
       setIsDeleting(true);
       await deletePost(Number(postId));
-      navigate("/donghaeng");
+      navigate(getBoardPathByCategory(post.category));
     } catch (error) {
       console.error(error);
       window.alert("게시글 삭제 중 오류가 발생했습니다.");
@@ -121,14 +127,14 @@ function PostDetailPage() {
                 </div>
               </div>
 
-              <div className="min-h-[320px] px-6 py-8 text-base leading-8 whitespace-pre-wrap text-slate-800 md:px-8">
+              <div className="min-h-[320px] whitespace-pre-wrap px-6 py-8 text-base leading-8 text-slate-800 md:px-8">
                 {post.content}
               </div>
 
               <div className="flex flex-wrap justify-between gap-3 border-t border-slate-200 px-6 py-5 md:px-8">
                 <button
                   type="button"
-                  onClick={() => navigate("/donghang")}
+                  onClick={() => navigate(boardPath)}
                   className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
                 >
                   목록으로

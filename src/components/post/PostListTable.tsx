@@ -1,4 +1,8 @@
 import type { PostListItem } from "../../types/post";
+import {
+  getRentOfferTypeLabel,
+  getRentOfferTypeBadgeClass,
+} from "../../utils/rentLabel";
 
 interface PostListTableProps {
   posts: PostListItem[];
@@ -31,26 +35,44 @@ function PostListTable({ posts, onClickPost }: PostListTableProps) {
       </div>
 
       <ul className="divide-y divide-slate-200">
-        {posts.map((post) => (
-          <li
-            key={post.id}
-            className="grid grid-cols-[100px_minmax(0,1fr)_110px_90px_120px] items-center px-5 py-4 text-sm text-slate-800 transition hover:bg-slate-50"
-          >
-            <span className="font-medium text-slate-700">{post.location}</span>
+        {posts.map((post) => {
+          const rentLabel =
+            post.category === "RENT"
+              ? getRentOfferTypeLabel(post.offerType)
+              : "";
 
-            <button
-              type="button"
-              onClick={() => onClickPost?.(post.id)}
-              className="truncate text-left font-semibold text-slate-900 hover:underline"
+          return (
+            <li
+              key={post.id}
+              className="grid grid-cols-[100px_minmax(0,1fr)_110px_90px_120px] items-center px-5 py-4 text-sm text-slate-800 transition hover:bg-slate-50"
             >
-              {post.title}
-            </button>
+              <span className="font-medium text-slate-700">
+                {post.location}
+              </span>
 
-            <span className="truncate text-slate-700">{post.nickname}</span>
-            <span className="text-slate-700">{post.viewCnt}</span>
-            <span className="text-slate-700">{formatDate(post.createdAt)}</span>
-          </li>
-        ))}
+              <button
+                type="button"
+                onClick={() => onClickPost?.(post.id)}
+                className="truncate text-left font-semibold text-slate-900 hover:underline"
+              >
+                {rentLabel && (
+                  <span
+                    className={`mr-2 rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-slate-700 ${getRentOfferTypeBadgeClass(post.offerType)}`}
+                  >
+                    {rentLabel}
+                  </span>
+                )}
+                {post.title}
+              </button>
+
+              <span className="truncate text-slate-700">{post.nickname}</span>
+              <span className="text-slate-700">{post.viewCnt}</span>
+              <span className="text-slate-700">
+                {formatDate(post.createdAt)}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

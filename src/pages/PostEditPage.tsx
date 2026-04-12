@@ -9,12 +9,12 @@ import { useToast } from "../contexts/ToastContext";
 function PostEditPage() {
   const { postId } = useParams();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [post, setPost] = useState<PostDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { showToast } = useToast();
 
   useEffect(() => {
     async function fetchPost() {
@@ -46,13 +46,14 @@ function PostEditPage() {
     location: string;
     content: string;
   }) => {
-    if (!postId) return;
+    if (!postId || !post) return;
 
     try {
       setIsSubmitting(true);
+      setError("");
 
       await updatePost(Number(postId), {
-        category: "DONGHANG",
+        category: post.category,
         title: values.title,
         location: values.location,
         content: values.content,
@@ -63,6 +64,7 @@ function PostEditPage() {
     } catch (error) {
       console.error(error);
       setError("게시글 수정 중 오류가 발생했습니다.");
+      showToast("게시글 수정 중 오류가 발생했습니다.", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -85,14 +87,24 @@ function PostEditPage() {
 
         {!loading && post && (
           <>
-            <div className="mb-8">
-              <p className="mb-2 text-sm font-semibold text-sky-700">Edit</p>
-              <h1 className="text-4xl font-bold tracking-tight text-slate-950">
-                동행 글 수정
-              </h1>
-              <p className="mt-3 text-base text-slate-700">
-                게시글 내용을 수정해보세요.
-              </p>
+            <div className="mb-8 flex items-end justify-between gap-4">
+              <div>
+                <p className="mb-2 text-sm font-semibold text-sky-700">Edit</p>
+                <h1 className="text-4xl font-bold tracking-tight text-slate-950">
+                  게시글 수정
+                </h1>
+                <p className="mt-3 text-base text-slate-700">
+                  게시글 내용을 수정해보세요.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => navigate(`/posts/${post.id}`)}
+                className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
+              >
+                취소
+              </button>
             </div>
 
             {error && (

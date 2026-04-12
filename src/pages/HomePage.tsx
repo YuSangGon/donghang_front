@@ -78,7 +78,7 @@ function HomePage() {
                 title="동행"
                 description="해외에서 함께 여행하거나 일정 맞는 사람을 찾아보세요."
                 posts={posts.companionPosts}
-                moreLink="/donghaeng"
+                moreLink="/donghang"
               />
 
               <PreviewSection

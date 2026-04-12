@@ -1,4 +1,5 @@
 export type PostCategory = "DONGHANG" | "RENT" | "JOB" | "INFO";
+export type RentOfferType = "RENT" | "WANTED";
 
 export interface PostListItem {
   id: number;
@@ -8,6 +9,7 @@ export interface PostListItem {
   viewCnt: number;
   category: PostCategory;
   createdAt: string;
+  offerType?: RentOfferType | null;
 }
 
 export interface HomePostPreviewItem {

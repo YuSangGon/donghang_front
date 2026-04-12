@@ -18,7 +18,7 @@ function Footer() {
         </div>
 
         <div className="mt-8 text-sm text-slate-600">
-          © 2026 Donghaeng. All rights reserved.
+          © 2026 Donghang. All rights reserved.
         </div>
       </div>
     </footer>
