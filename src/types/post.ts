@@ -2,6 +2,13 @@ export type PostCategory = "DONGHANG" | "RENT" | "JOB" | "INFO";
 export type RentOfferType = "RENT" | "WANTED";
 export type JobType = "PART_TIME" | "FULL_TIME";
 
+export interface CountryOption {
+  code: string;
+  name: string;
+  lat: number;
+  lng: number;
+}
+
 export interface PostListItem {
   id: number;
   title: string;
@@ -10,6 +17,8 @@ export interface PostListItem {
   viewCnt: number;
   category: PostCategory;
   createdAt: string;
+  countryCode: string;
+  countryName: string;
   offerType?: RentOfferType | null;
   jobType?: JobType | null;
 }
@@ -30,6 +39,8 @@ export interface PostDetail {
   title: string;
   content: string;
   location: string;
+  countryCode: string;
+  countryName: string;
   viewCnt: number;
   createdAt: string;
   updatedAt: string;

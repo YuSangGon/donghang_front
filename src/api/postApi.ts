@@ -13,6 +13,8 @@ export interface CreatePostRequest {
   title: string;
   content: string;
   location: string;
+  countryCode: string;
+  countryName: string;
 }
 
 export interface UpdatePostRequest {
@@ -20,16 +22,31 @@ export interface UpdatePostRequest {
   content: string;
   location: string;
   category: PostCategory;
+  countryCode: string;
+  countryName: string;
 }
 
 export async function getPostsByCategory(
   category: PostCategory,
   page: number,
   size: number,
+  countryCode?: string,
+  keyword?: string,
 ): Promise<PostPageResponse> {
-  const response = await fetch(
-    `${BASE_URL}?category=${encodeURIComponent(category)}&page=${page}&size=${size}`,
-  );
+  const params = new URLSearchParams({
+    category,
+    page: String(page),
+    size: String(size),
+  });
+
+  if (countryCode) {
+    params.set("countryCode", countryCode);
+  }
+
+  if (keyword) {
+    params.set("keyword", keyword);
+  }
+  const response = await fetch(`${BASE_URL}?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error("카테고리별 게시글 목록을 불러오지 못했습니다.");

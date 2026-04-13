@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import { createPost } from "../api/postApi";
 import { useToast } from "../contexts/ToastContext";
+import CountrySelect from "../components/common/CountrySelect";
+import { COUNTRY_OPTIONS } from "../constants/countries";
 
 function InfoWritePage() {
   const navigate = useNavigate();
@@ -12,12 +14,22 @@ function InfoWritePage() {
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [countryCode, setCountryCode] = useState("");
+  const selectedCountry = useMemo(
+    () => COUNTRY_OPTIONS.find((country) => country.code === countryCode),
+    [countryCode],
+  );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!title.trim()) {
       setError("제목을 입력해주세요.");
+      return;
+    }
+
+    if (!countryCode) {
+      setError("나라를 선택해주세요.");
       return;
     }
 
@@ -36,6 +48,8 @@ function InfoWritePage() {
         title: title.trim(),
         content: content.trim(),
         location: "정보게시판",
+        countryCode: countryCode,
+        countryName: selectedCountry?.name ?? "",
       });
 
       showToast("정보게시판 글이 등록되었습니다.");
@@ -79,6 +93,8 @@ function InfoWritePage() {
                 placeholder="제목을 입력하세요"
               />
             </div>
+
+            <CountrySelect value={countryCode} onChange={setCountryCode} />
 
             <div>
               <label className="mb-2 block text-sm font-semibold text-slate-900">

@@ -17,6 +17,8 @@ import JobEditPage from "./pages/JobEditPage";
 import InfoWritePage from "./pages/InfoWritePage";
 import InfoDetailPage from "./pages/InfoDetailPage";
 import InfoEditPage from "./pages/InfoEditPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path="/info-posts/:postId/edit" element={<InfoEditPage />} />
           <Route path="/posts/:postId" element={<PostDetailPage />} />
           <Route path="/posts/:postId/edit" element={<PostEditPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
         </Routes>
       </BrowserRouter>
     </ToastProvider>
