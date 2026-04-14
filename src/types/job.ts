@@ -1,7 +1,6 @@
 export type JobType = "PART_TIME" | "FULL_TIME";
 
 export interface JobPostCreateRequest {
-  userId: number;
   title: string;
   content: string;
   location: string;
@@ -11,6 +10,7 @@ export interface JobPostCreateRequest {
 }
 
 export interface JobPostDetail {
+  userId: number;
   postId: number;
   title: string;
   content: string;

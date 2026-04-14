@@ -43,7 +43,6 @@ function InfoWritePage() {
       setIsSubmitting(true);
 
       const postId = await createPost({
-        userId: 1,
         category: "INFO",
         title: title.trim(),
         content: content.trim(),

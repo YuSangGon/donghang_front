@@ -1,11 +1,12 @@
 import type { JobPostCreateRequest, JobPostDetail } from "../types/job";
+import { authFetch } from "./fetchClient";
 
 const BASE_URL = "/api/job-posts";
 
 export async function createJobPost(
   request: JobPostCreateRequest,
 ): Promise<number> {
-  const response = await fetch(BASE_URL, {
+  const response = await authFetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,9 +33,9 @@ export async function getJobPostDetail(postId: number): Promise<JobPostDetail> {
 
 export async function updateJobPost(
   postId: number,
-  request: Omit<JobPostCreateRequest, "userId">,
+  request: JobPostCreateRequest,
 ): Promise<number> {
-  const response = await fetch(`${BASE_URL}/${postId}`, {
+  const response = await authFetch(`${BASE_URL}/${postId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

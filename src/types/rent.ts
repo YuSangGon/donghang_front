@@ -3,7 +3,6 @@ export type RentStayType = "LONG_TERM" | "SHORT_TERM" | "FLEXIBLE";
 export type RentFeeUnit = "WEEK" | "MONTH" | "YEAR";
 
 export interface RentPostCreateRequest {
-  userId: number;
   title: string;
   content: string;
 
@@ -32,6 +31,7 @@ export interface RentPostCreateRequest {
 
 export interface RentPostDetail {
   postId: number;
+  userId: number;
   title: string;
   content: string;
   nickname: string;

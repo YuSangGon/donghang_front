@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import { getPostDetail, updatePost } from "../api/postApi";
 import type { PostDetail } from "../types/post";
 import { useToast } from "../contexts/ToastContext";
+import CountrySelect from "../components/common/CountrySelect";
+import { COUNTRY_OPTIONS } from "../constants/countries";
 
 function InfoEditPage() {
   const { postId } = useParams();
@@ -17,6 +19,11 @@ function InfoEditPage() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const selectedCountry = useMemo(
+    () => COUNTRY_OPTIONS.find((country) => country.code === countryCode),
+    [countryCode],
+  );
 
   useEffect(() => {
     async function fetchPost() {
@@ -62,6 +69,8 @@ function InfoEditPage() {
         content: content.trim(),
         location: "정보게시판",
         category: "INFO",
+        countryCode: countryCode,
+        countryName: selectedCountry?.name ?? "",
       });
 
       showToast("정보게시판 글이 수정되었습니다.");
@@ -116,6 +125,8 @@ function InfoEditPage() {
               className="w-full rounded-2xl border border-slate-300 px-4 py-3"
               placeholder="제목"
             />
+
+            <CountrySelect value={countryCode} onChange={setCountryCode} />
 
             <textarea
               rows={12}

@@ -1,6 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "../../contexts/ToastContext";
+import { useAuth } from "../../hooks/useAuth";
 
 function Header() {
+  const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { isLoggedIn, user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    showToast("로그아웃되었습니다.");
+    navigate("/");
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b border-slate-300 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-6">
@@ -27,18 +39,35 @@ function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
-          >
-            로그인
-          </Link>
-          <Link
-            to="/signup"
-            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-          >
-            회원가입
-          </Link>
+          {!isLoggedIn ? (
+            <>
+              <Link
+                to="/login"
+                className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
+              >
+                로그인
+              </Link>
+              <Link
+                to="/signup"
+                className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                회원가입
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800">
+                {user?.nickname}님
+              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
+              >
+                로그아웃
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>

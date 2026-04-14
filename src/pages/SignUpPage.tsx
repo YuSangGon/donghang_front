@@ -74,6 +74,9 @@ function SignUpPage() {
               placeholder="비밀번호"
               className="w-full rounded-2xl border border-slate-300 px-4 py-3"
             />
+            <p className="mt-2 text-xs text-slate-500">
+              8~50자, 영문 2자 이상/숫자/특수문자를 모두 포함해주세요.
+            </p>
 
             <input
               type="email"

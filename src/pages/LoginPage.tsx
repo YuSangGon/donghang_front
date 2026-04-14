@@ -37,6 +37,7 @@ function LoginPage() {
       });
 
       saveAuth(auth);
+      window.dispatchEvent(new Event("auth-changed"));
       showToast("로그인되었습니다.");
       navigate("/");
     } catch (submitError) {

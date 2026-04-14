@@ -104,7 +104,6 @@ function RentWritePage() {
       setIsSubmitting(true);
 
       const postId = await createRentPost({
-        userId: 1,
         title: title.trim(),
         content: content.trim(),
 

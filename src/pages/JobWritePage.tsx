@@ -53,7 +53,6 @@ function JobWritePage() {
       setIsSubmitting(true);
 
       const postId = await createJobPost({
-        userId: 1,
         title: title.trim(),
         content: content.trim(),
         location: location.trim(),

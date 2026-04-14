@@ -4,11 +4,11 @@ import type {
   PostDetail,
   PostPageResponse,
 } from "../types/post";
+import { authFetch } from "./fetchClient";
 
 const BASE_URL = "/api/posts";
 
 export interface CreatePostRequest {
-  userId: number;
   category: PostCategory;
   title: string;
   content: string;
@@ -39,13 +39,9 @@ export async function getPostsByCategory(
     size: String(size),
   });
 
-  if (countryCode) {
-    params.set("countryCode", countryCode);
-  }
+  if (countryCode) params.set("countryCode", countryCode);
+  if (keyword) params.set("keyword", keyword);
 
-  if (keyword) {
-    params.set("keyword", keyword);
-  }
   const response = await fetch(`${BASE_URL}?${params.toString()}`);
 
   if (!response.ok) {
@@ -80,7 +76,7 @@ export async function getPostDetail(postId: number): Promise<PostDetail> {
 }
 
 export async function createPost(request: CreatePostRequest): Promise<number> {
-  const response = await fetch(BASE_URL, {
+  const response = await authFetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -99,7 +95,7 @@ export async function updatePost(
   postId: number,
   request: UpdatePostRequest,
 ): Promise<number> {
-  const response = await fetch(`${BASE_URL}/${postId}`, {
+  const response = await authFetch(`${BASE_URL}/${postId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -115,7 +111,7 @@ export async function updatePost(
 }
 
 export async function deletePost(postId: number): Promise<void> {
-  const response = await fetch(`${BASE_URL}/${postId}`, {
+  const response = await authFetch(`${BASE_URL}/${postId}`, {
     method: "DELETE",
   });
 

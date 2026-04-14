@@ -7,6 +7,7 @@ import { deletePost } from "../api/postApi";
 import { getRentPostDetail } from "../api/rentPostApi";
 import type { RentPostDetail } from "../types/rent";
 import { useToast } from "../contexts/ToastContext";
+import { getStoredUser } from "../utils/authStorage";
 
 function formatDate(dateString?: string) {
   if (!dateString) return "-";
@@ -56,6 +57,8 @@ function RentDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const currentUser = getStoredUser();
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     async function fetchPost() {
@@ -70,6 +73,7 @@ function RentDetailPage() {
         setError("");
         const data = await getRentPostDetail(Number(postId));
         setPost(data);
+        setIsOwner(currentUser?.userId === data.userId);
       } catch (fetchError) {
         console.error(fetchError);
         setError("렌트 글을 불러오는 중 오류가 발생했습니다.");
@@ -224,24 +228,26 @@ function RentDetailPage() {
                 목록으로
               </button>
 
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => navigate(`/rent-posts/${post.postId}/edit`)}
-                  className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
-                >
-                  수정하기
-                </button>
+              {isOwner && (
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/rent-posts/${post.postId}/edit`)}
+                    className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
+                  >
+                    수정하기
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={handleDelete}
-                  disabled={isDeleting}
-                  className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 disabled:opacity-60"
-                >
-                  {isDeleting ? "삭제 중..." : "삭제하기"}
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                    className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 disabled:opacity-60"
+                  >
+                    {isDeleting ? "삭제 중..." : "삭제하기"}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

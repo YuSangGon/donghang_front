@@ -1,11 +1,12 @@
 import type { RentPostCreateRequest, RentPostDetail } from "../types/rent";
+import { authFetch } from "./fetchClient";
 
 const BASE_URL = "/api/rent-posts";
 
 export async function createRentPost(
   request: RentPostCreateRequest,
 ): Promise<number> {
-  const response = await fetch(BASE_URL, {
+  const response = await authFetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,9 +35,9 @@ export async function getRentPostDetail(
 
 export async function updateRentPost(
   postId: number,
-  request: Omit<RentPostCreateRequest, "userId">,
+  request: RentPostCreateRequest,
 ): Promise<number> {
-  const response = await fetch(`${BASE_URL}/${postId}`, {
+  const response = await authFetch(`${BASE_URL}/${postId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
