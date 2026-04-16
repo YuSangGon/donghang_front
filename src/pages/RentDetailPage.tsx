@@ -8,6 +8,8 @@ import { getRentPostDetail } from "../api/rentPostApi";
 import type { RentPostDetail } from "../types/rent";
 import { useToast } from "../contexts/ToastContext";
 import { getStoredUser } from "../utils/authStorage";
+import { createOrGetInquiryRoom } from "../api/chatApi";
+import { isLoggedIn } from "../utils/authStorage";
 
 function formatDate(dateString?: string) {
   if (!dateString) return "-";
@@ -84,6 +86,23 @@ function RentDetailPage() {
 
     fetchPost();
   }, [postId]);
+
+  const handleInquiry = async () => {
+    if (!post) return;
+
+    if (!isLoggedIn()) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const roomId = await createOrGetInquiryRoom(post.postId);
+      navigate(`/chat/rooms/${roomId}`);
+    } catch (err) {
+      console.error(err);
+      showToast("문의 채팅방을 여는 중 오류가 발생했습니다.", "error");
+    }
+  };
 
   const handleDelete = async () => {
     if (!post) return;
@@ -228,26 +247,38 @@ function RentDetailPage() {
                 목록으로
               </button>
 
-              {isOwner && (
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => navigate(`/rent-posts/${post.postId}/edit`)}
-                    className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
-                  >
-                    수정하기
-                  </button>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={handleInquiry}
+                  className="rounded-2xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-sky-500"
+                >
+                  문의하기
+                </button>
 
-                  <button
-                    type="button"
-                    onClick={handleDelete}
-                    disabled={isDeleting}
-                    className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 disabled:opacity-60"
-                  >
-                    {isDeleting ? "삭제 중..." : "삭제하기"}
-                  </button>
-                </div>
-              )}
+                {isOwner && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigate(`/rent-posts/${post.postId}/edit`)
+                      }
+                      className="rounded-2xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-100"
+                    >
+                      수정하기
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      disabled={isDeleting}
+                      className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-500 disabled:opacity-60"
+                    >
+                      {isDeleting ? "삭제 중..." : "삭제하기"}
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}

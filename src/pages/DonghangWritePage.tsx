@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import PostForm from "../components/post/PostForm";
 import { createPost } from "../api/postApi";
 import { useToast } from "../contexts/ToastContext";
+import CountrySelect from "../components/common/CountrySelect";
+import { COUNTRY_OPTIONS } from "../constants/countries";
 
 function DonghangWritePage() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const { showToast } = useToast();
+  const [countryCode, setCountryCode] = useState("");
+  const selectedCountry = useMemo(
+    () => COUNTRY_OPTIONS.find((country) => country.code === countryCode),
+    [countryCode],
+  );
 
   const handleSubmit = async (values: {
     title: string;
@@ -21,11 +28,12 @@ function DonghangWritePage() {
       setSubmitError("");
 
       const postId = await createPost({
-        userId: 1,
         category: "DONGHANG",
         title: values.title,
         location: values.location,
         content: values.content,
+        countryCode: countryCode,
+        countryName: selectedCountry?.name ?? "",
       });
 
       showToast("게시글이 등록되었습니다.");
@@ -56,6 +64,8 @@ function DonghangWritePage() {
             {submitError}
           </div>
         )}
+
+        <CountrySelect value={countryCode} onChange={setCountryCode} />
 
         <PostForm
           submitLabel="등록하기"
