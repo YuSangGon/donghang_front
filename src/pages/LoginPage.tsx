@@ -49,6 +49,10 @@ function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = "/oauth2/authorization/google";
+  };
+
   return (
     <MainLayout>
       <section className="mx-auto max-w-md px-6 py-16">
@@ -92,6 +96,14 @@ function LoginPage() {
               className="w-full rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white"
             >
               {isSubmitting ? "로그인 중..." : "로그인"}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className="w-full rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+            >
+              Google로 로그인
             </button>
           </form>
         </div>

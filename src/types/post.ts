@@ -1,6 +1,7 @@
-export type PostCategory = "DONGHANG" | "RENT" | "JOB" | "INFO";
+export type PostCategory = "DONGHANG" | "RENT" | "JOB" | "INFO" | "MARKET";
 export type RentOfferType = "RENT" | "WANTED";
 export type JobType = "PART_TIME" | "FULL_TIME";
+export type MarketType = "SELL" | "BUY";
 
 export interface CountryOption {
   code: string;
@@ -21,6 +22,7 @@ export interface PostListItem {
   countryName: string;
   offerType?: RentOfferType | null;
   jobType?: JobType | null;
+  marketType?: MarketType | null;
 }
 
 export interface HomePostPreviewItem {

@@ -10,6 +10,8 @@ export function getBoardPathByCategory(category: PostCategory): string {
       return "/job";
     case "INFO":
       return "/info";
+    case "MARKET":
+      return "/market";
     default:
       return "/";
   }
@@ -25,6 +27,8 @@ export function getWritePathByCategory(category: PostCategory): string {
       return "/job/write";
     case "INFO":
       return "/info/write";
+    case "MARKET":
+      return "/market/write";
     default:
       return "/";
   }
@@ -43,6 +47,8 @@ export function getDetailPathByCategory(
       return `/job-posts/${postId}`;
     case "INFO":
       return `/info-posts/${postId}`;
+    case "MARKET":
+      return `/market-posts/${postId}`;
     default:
       return `/posts/${postId}`;
   }

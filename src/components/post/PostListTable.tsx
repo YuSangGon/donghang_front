@@ -1,6 +1,7 @@
 import type { PostListItem } from "../../types/post";
 import { getRentOfferTypeLabel } from "../../utils/rentLabel";
 import { getJobTypeLabel } from "../../utils/jobLabel";
+import { getMarketTypeLabel } from "../../utils/marketLabel";
 
 interface PostListTableProps {
   posts: PostListItem[];
@@ -42,7 +43,12 @@ function PostListTable({ posts, onClickPost }: PostListTableProps) {
           const jobLabel =
             post.category === "JOB" ? getJobTypeLabel(post.jobType) : "";
 
-          const badgeLabel = rentLabel || jobLabel;
+          const marketLabel =
+            post.category === "MARKET"
+              ? getMarketTypeLabel(post.marketType)
+              : "";
+
+          const badgeLabel = rentLabel || jobLabel || marketLabel;
 
           return (
             <li

@@ -21,6 +21,11 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import RequireAuth from "./components/auth/RequireAuth";
 import RequireGuest from "./components/auth/RequireGuest";
+import OAuth2CallbackPage from "./pages/OAuth2CallbackPage";
+import MarketPage from "./pages/MarketPage";
+import MarketWritePage from "./pages/MarketWritePage";
+import MarketDetailPage from "./pages/MarketDetailPage";
+import MarketEditPage from "./pages/MarketEditPage";
 
 function App() {
   return (
@@ -32,6 +37,7 @@ function App() {
           <Route path="/rent" element={<RentPage />} />
           <Route path="/job" element={<JobPage />} />
           <Route path="/info" element={<InfoPage />} />
+          <Route path="/market" element={<MarketPage />} />
           <Route
             path="/donghang/write"
             element={
@@ -75,6 +81,23 @@ function App() {
             }
           />
           <Route
+            path="/market/write"
+            element={
+              <RequireAuth>
+                <MarketWritePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/market-posts/:postId/edit"
+            element={
+              <RequireAuth>
+                <MarketEditPage />
+              </RequireAuth>
+            }
+          />
+          <Route path="/market-posts/:postId" element={<MarketDetailPage />} />
+          <Route
             path="/info/write"
             element={
               <RequireAuth>
@@ -114,6 +137,15 @@ function App() {
             element={
               <RequireGuest>
                 <SignUpPage />
+              </RequireGuest>
+            }
+          />
+
+          <Route
+            path="/oauth2/callback"
+            element={
+              <RequireGuest>
+                <OAuth2CallbackPage />
               </RequireGuest>
             }
           />

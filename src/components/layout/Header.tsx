@@ -33,6 +33,9 @@ function Header() {
           <Link to="/job" className="transition hover:text-slate-950">
             구직
           </Link>
+          <Link to="/market" className="transition hover:text-slate-950">
+            중고
+          </Link>
           <Link to="/info" className="transition hover:text-slate-950">
             정보게시판
           </Link>
